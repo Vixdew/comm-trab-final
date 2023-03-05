@@ -1,5 +1,5 @@
 function [recovered_bits] = recover_modulated_bits_16PSK(modulated_noisy_bits)
-    import possible_values
+    import reference_points_16PSK
     import find_nearest_16PSK_point
     load('16PSK_reference_points.mat')
 
