@@ -1,3 +1,11 @@
+%Função serve para transformar sequência de bits de entrada em uma
+%sequência de números complexos, representando os bits em pontos 8PSK a
+%serem transmitidos. Os três bits são transformados em um número
+%decimal+1, que então é usado para acessar uma matriz que diz qual é o
+%index que representa aquela sequência de bits na matriz
+%reference_8PSK_points. Assim, faz-se a tradução de 3 bits em um número
+%complexo.
+
 function [modulated_bits] = modulate_bits_8PSK(original_bits)
     import bit2int_3bits
     import reference_points_8PSK

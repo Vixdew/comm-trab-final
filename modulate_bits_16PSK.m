@@ -1,3 +1,11 @@
+%Função serve para transformar sequência de bits de entrada em uma
+%sequência de números complexos, representando os bits em pontos 16PSK a
+%serem transmitidos. Os quatro bits são transformados em um número
+%decimal+1, que então é usado para acessar uma matriz que diz qual é o
+%index que representa aquela sequência de bits na matriz
+%reference_16PSK_points. Assim, faz-se a tradução de 4 bits em um número
+%complexo.
+
 function [modulated_bits] = modulate_bits_16PSK(original_bits)
     import bit2int_4bits
     import reference_points_16PSK

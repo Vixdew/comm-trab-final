@@ -1,3 +1,7 @@
+%Função booleana. Serve para determinar se a distância entre um número
+%complexo ruidoso e um determinado ponto de referência 16PSK ou 8PSK é
+%menor que current_min_distance.
+
 function [isCloser] = point_is_closer(noisy_point, reference_point, current_min_distance)
     import get_absolute_distance_between_complex_points
     
