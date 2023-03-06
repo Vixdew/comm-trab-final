@@ -159,19 +159,16 @@ function [result] = calculate_BER_graphs()
 
     %ber_theoretical = 0.25*erfc(sqrt(2*Eb_N0_lin)/sqrt(2)); %BER teórico para comparação
     %ber_theoretical = (1/4)*erfc(sqrt(Eb_N0_lin)*sin(pi/16));
-    plot(Eb_N0_dB, ber_16PSK_nocod, 'b-'); hold on;
+     plot(Eb_N0_dB, ber_16PSK_nocod, 'b-'); hold on;
     plot(Eb_N0_dB, ber_16PSK_M17, 'r-'); hold on;
     plot(Eb_N0_dB, ber_16PSK_TCH_HS, 'g-'); hold on;
     plot(Eb_N0_dB, ber_16PSK_ML_MANUAL, 'c-'); hold on;
     
-    plot(Eb_N0_dB, ber_8PSK_nocod, 'm--'); hold on;
-    plot(Eb_N0_dB, ber_8PSK_M17, 'y--'); hold on;
-    plot(Eb_N0_dB, ber_8PSK_TCH_HS, 'k--'); hold on;
-    plot(Eb_N0_dB, ber_8PSK_ML_MANUAL, 'w--'); hold off;
-    %semilogy(Eb_N0_dB, ber_16PSK_nocod, 'x', Eb_N0_dB, ber_theoretical, 'r', 'LineWidth', 2, 'MarkerSize', 10);
-    %(Eb_N0_dB, ber_16PSK_M17, 'x', Eb_N0_dB, ber_theoretical, 'r', 'LineWidth', 2, 'MarkerSize', 10);
-    %semilogy(Eb_N0_dB, ber_16PSK_TCH_HS, 'x', Eb_N0_dB, ber_theoretical, 'r', 'LineWidth', 2, 'MarkerSize', 10);
-    %semilogy(Eb_N0_dB, ber_16PSK_ML_MANUAL, 'x', Eb_N0_dB, ber_theoretical, 'r', 'LineWidth', 2, 'MarkerSize', 10);
+    plot(Eb_N0_dB, ber_8PSK_nocod, 'b-.'); hold on;
+    plot(Eb_N0_dB, ber_8PSK_M17, 'r-.'); hold on;
+    plot(Eb_N0_dB, ber_8PSK_TCH_HS, 'g-.'); hold on;
+    plot(Eb_N0_dB, ber_8PSK_ML_MANUAL, 'c-.'); hold off;
+    
     xlabel('Eb/N0 (dB)');
     ylabel('BER');
     legend('16PSK - NoCode','16PSK - M17', '16PSK - TCH-HS', '16PSK - ML MANUAL', ...
