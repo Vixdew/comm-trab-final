@@ -33,6 +33,10 @@ function [result] = calculate_BER_graphs()
     trellis_TCH_HS = poly2trellis(7, octal_representation_of_generative_polynomials_TCH_HS);
     trellis_ML_MANUAL = poly2trellis(5, octal_representation_of_generative_polynomials_ML_MANUAL, ...
                                      octal_representation_of_feedback_polynomial_ML_MANUAL);
+                                 
+    noise_potency_multiplier_M17 = 2 % Razão do código M17 é 1/2
+    noise_potency_multiplier_TCH_HS = 3 % Razão do código é 1/3
+    noise_potency_multiplier_ML_MANUAL = 2 % Razão do código é 1/2
    
     %Modula os bits de entrada, codificando-os antes de modular.
     %nocod = sem código convolucional
@@ -83,11 +87,19 @@ function [result] = calculate_BER_graphs()
     Eb_16PSK = Es / (log2(M_16PSK)); % energia por bit para a modulação 16PSK utilizada
     Eb_8PSK = Es / (log2(M_8PSK)); % energia por bit p/ a modulação 8PSK
 
-    NP_16PSK = Eb_16PSK ./ (Eb_N0_lin); %vetor de potências do ruído
-    NA_16PSK = sqrt(NP_16PSK); %vetor de amplitudes do ruído
-    
     NP_8PSK = Eb_8PSK ./ (Eb_N0_lin); %vetor de potências do ruído
-    NA_8PSK = sqrt(NP_8PSK); %vetor de amplitudes do ruído
+    NP_16PSK = Eb_16PSK ./ (Eb_N0_lin); %vetor de potências do ruído
+    
+    %Penaliza os códigos convolucionais multiplicando a potencia do ruído.
+    NA_16PSK_nocod =        sqrt(NP_16PSK); %vetor de amplitudes do ruído
+    NA_16PSK_M17 =          sqrt(NP_16PSK * noise_potency_multiplier_M17); %vetor de amplitudes do ruído
+    NA_16PSK_TCH_HS =       sqrt(NP_16PSK * noise_potency_multiplier_TCH_HS); %vetor de amplitudes do ruído
+    NA_16PSK_ML_MANUAL =    sqrt(NP_16PSK * noise_potency_multiplier_ML_MANUAL); %vetor de amplitudes do ruído
+    
+    NA_8PSK_nocod =        sqrt(NP_8PSK); %vetor de amplitudes do ruído
+    NA_8PSK_M17 =          sqrt(NP_8PSK * noise_potency_multiplier_M17); %vetor de amplitudes do ruído
+    NA_8PSK_TCH_HS =       sqrt(NP_8PSK * noise_potency_multiplier_TCH_HS); %vetor de amplitudes do ruído
+    NA_8PSK_ML_MANUAL =    sqrt(NP_8PSK * noise_potency_multiplier_ML_MANUAL); %vetor de amplitudes do ruído
     
     %Parâmetros para serem usados na decodificação de viterbi.
     tbdepth = 40;
@@ -95,17 +107,17 @@ function [result] = calculate_BER_graphs()
     dectype = 'hard';
 
     for i = 1:length(Eb_N0_lin)
-
+        tic
         %Gera ruídos para cada combinação de modulação e codificação.
-        n_16PSK_nocod =     NA_16PSK(i)*complex(randn(1, len_16PSK_nocod), randn(1, len_16PSK_nocod))*sqrt(0.5); %vetor de ruído complexo com desvio padrão igual a uma posição do vetor NA
-        n_16PSK_M17 =       NA_16PSK(i)*complex(randn(1, len_16PSK_M17), randn(1, len_16PSK_M17))*sqrt(0.5);
-        n_16PSK_TCH_HS =    NA_16PSK(i)*complex(randn(1, len_16PSK_TCH_HS), randn(1, len_16PSK_TCH_HS))*sqrt(0.5);
-        n_16PSK_ML_MANUAL = NA_16PSK(i)*complex(randn(1, len_16PSK_ML_MANUAL), randn(1, len_16PSK_ML_MANUAL))*sqrt(0.5);
+        n_16PSK_nocod =     NA_16PSK_nocod(i)       * complex(randn(1, len_16PSK_nocod), randn(1, len_16PSK_nocod))*sqrt(0.5); %vetor de ruído complexo com desvio padrão igual a uma posição do vetor NA
+        n_16PSK_M17 =       NA_16PSK_M17(i)         * complex(randn(1, len_16PSK_M17), randn(1, len_16PSK_M17))*sqrt(0.5);
+        n_16PSK_TCH_HS =    NA_16PSK_TCH_HS(i)      * complex(randn(1, len_16PSK_TCH_HS), randn(1, len_16PSK_TCH_HS))*sqrt(0.5);
+        n_16PSK_ML_MANUAL = NA_16PSK_ML_MANUAL(i)   * complex(randn(1, len_16PSK_ML_MANUAL), randn(1, len_16PSK_ML_MANUAL))*sqrt(0.5);
         
-        n_8PSK_nocod =     NA_8PSK(i)*complex(randn(1, len_8PSK_nocod), randn(1, len_8PSK_nocod))*sqrt(0.5); %vetor de ruído complexo com desvio padrão igual a uma posição do vetor NA
-        n_8PSK_M17 =       NA_8PSK(i)*complex(randn(1, len_8PSK_M17), randn(1, len_8PSK_M17))*sqrt(0.5);
-        n_8PSK_TCH_HS =    NA_8PSK(i)*complex(randn(1, len_8PSK_TCH_HS), randn(1, len_8PSK_TCH_HS))*sqrt(0.5);
-        n_8PSK_ML_MANUAL = NA_8PSK(i)*complex(randn(1, len_8PSK_ML_MANUAL), randn(1, len_8PSK_ML_MANUAL))*sqrt(0.5);
+        n_8PSK_nocod =      NA_8PSK_nocod(i)         * complex(randn(1, len_8PSK_nocod), randn(1, len_8PSK_nocod))*sqrt(0.5); %vetor de ruído complexo com desvio padrão igual a uma posição do vetor NA
+        n_8PSK_M17 =        NA_8PSK_M17(i)           * complex(randn(1, len_8PSK_M17), randn(1, len_8PSK_M17))*sqrt(0.5);
+        n_8PSK_TCH_HS =     NA_8PSK_TCH_HS(i)        * complex(randn(1, len_8PSK_TCH_HS), randn(1, len_8PSK_TCH_HS))*sqrt(0.5);
+        n_8PSK_ML_MANUAL =  NA_8PSK_ML_MANUAL(i)     * complex(randn(1, len_8PSK_ML_MANUAL), randn(1, len_8PSK_ML_MANUAL))*sqrt(0.5);
         
         
         %Gera os bits modulados ruidosos
@@ -114,10 +126,10 @@ function [result] = calculate_BER_graphs()
         r_16PSK_TCH_HS =    bits_modulated_16PSK_TCH_HS + n_16PSK_TCH_HS; % vetor recebido
         r_16PSK_ML_MANUAL = bits_modulated_16PSK_ML_MANUAL + n_16PSK_ML_MANUAL; % vetor recebido
         
-        r_8PSK_nocod =     bits_modulated_8PSK_nocod + n_8PSK_nocod; % vetor recebido
-        r_8PSK_M17 =       bits_modulated_8PSK_M17 + n_8PSK_M17; % vetor recebido
-        r_8PSK_TCH_HS =    bits_modulated_8PSK_TCH_HS + n_8PSK_TCH_HS; % vetor recebido
-        r_8PSK_ML_MANUAL = bits_modulated_8PSK_ML_MANUAL + n_8PSK_ML_MANUAL; % vetor recebido
+        r_8PSK_nocod =      bits_modulated_8PSK_nocod + n_8PSK_nocod; % vetor recebido
+        r_8PSK_M17 =        bits_modulated_8PSK_M17 + n_8PSK_M17; % vetor recebido
+        r_8PSK_TCH_HS =     bits_modulated_8PSK_TCH_HS + n_8PSK_TCH_HS; % vetor recebido
+        r_8PSK_ML_MANUAL =  bits_modulated_8PSK_ML_MANUAL + n_8PSK_ML_MANUAL; % vetor recebido
         
         
         %Faz a demodulação dos bits ruidosos, os aproximando aos pontos
@@ -155,6 +167,8 @@ function [result] = calculate_BER_graphs()
         ber_8PSK_M17(i)        = sum(original_bits ~= demod_and_decod_8PSK_M17) / num_b; % contagem de erros e cálculo do BER
         ber_8PSK_TCH_HS(i)     = sum(original_bits ~= demod_and_decod_8PSK_TCH_HS) / num_b; % contagem de erros e cálculo do BER
         ber_8PSK_ML_MANUAL(i)  = sum(original_bits ~= demod_and_decod_8PSK_ML_MANUAL) / num_b; % contagem de erros e cálculo do BER
+        i
+        toc
     end
     
     result = [ber_16PSK_nocod, ...
