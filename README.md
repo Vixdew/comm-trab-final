@@ -2,7 +2,9 @@
 
 Uma análise em Matlab da taxa de erro de bit das modulações 16-PSK e 8-PSK quando usadas sem código de canal, com código convolucionais baseados no padrão de rádio amador [M-17](https://spec.m17project.org/), baseado no padrão [TCH-HS](https://www.etsi.org/deliver/etsi_gts/05/0503/05.00.00_60/gsmts_0503v050000p.pdf), e baseado num código convolucional usado de exemplo no [manual do Matlab](https://www.mathworks.com/help/comm/ug/error-detection-and-correction.html##fp7405)(ML Manual) sob a seção '*Use Trellis Structure for Rate 1/2 Feedback Convolutional Encoder*'.
 
-Feito como trabalho final para a cadeira de Comunicação de Dados.
+O código pode ser executado a partir do arquivo '*calculate_BER_graphs.m*'.
+
+Desenvolvido em Matlab 2012B como trabalho final para a cadeira de Comunicação de Dados.
 
 ## Bit Error Rate
 
