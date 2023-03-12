@@ -10,6 +10,8 @@ Desenvolvido em Matlab 2012B como trabalho final para a cadeira de Comunicação
 
 Bit Error Rate se refere a taxa de erro de uma stream de dados quando enviados via um meio de comunicação. Em específico, é usada para medir a taxa de erro em relação aos bits de informação enviados, sem contar quaisquer bits de redundância presentes na stream de bits. Isso é importante pois implica que, havendo presença de bits de redundância, precisamos penalizar esse código de acordo com a sua razão via a potencialização do ruído adicionado ao sinal dele. Isto se dá pois se aplicarmos o mesmo ruído para uma modulação sem código e um código convolucional com razão 1/5, o ruído relativo a cada bit de informação será muito diferente, favorecendo o código convolucional.
 
+Assim, quanto menor a BER de uma stream de dados encodificada com um certo código convolucional e transmida com certa modulação, menor as chances de que o ruído do meio vá gerar erros incorrigíveis na stream de dados recebida.
+
 ## Metodologia
 
 Nesta análise, estamos interessados em simular a transmissão de uma stream de 1.000.200 bits de dados sobre um meio ruidoso. 
