@@ -20,7 +20,7 @@ Após moduladas, adicionamos ruído ao conteúdo modulado, desmodulamos aproxima
 
 Fazemos isso para diferentes taxas de sinal-ruído, gerando o gráfico abaixo.
 
-![Alt text](resultados.png?raw=true "Title")
+![Gráfico mostrando a BER](resultados.png?raw=true "Análise de Bit Error Rate")
 
 ## Análise
 
