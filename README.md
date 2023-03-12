@@ -15,3 +15,5 @@ Primeiro encodificamos a stream de dados segundo os padrões M-17, TCH-HS e ML M
 Após moduladas, adicionamos ruído ao conteúdo modulado, desmodulamos aproximando o melhor que a modulação consegue, e depois medimos a taxa de erros.
 
 Fazemos isso para diferentes taxas de sinal-ruído, gerando o gráfico abaixo.
+
+![Alt text](resultados.png?raw=true "Title")
